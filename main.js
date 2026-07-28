@@ -1,7 +1,6 @@
 console.log("Gamepad viewer, by Ishidaw");
 
 let mainGamepad = undefined;
-let restoreImage = undefined;
 
 // Text html for debuggin
 const d_btn_top = document.querySelector(".top");
@@ -77,6 +76,7 @@ function gamepadConnected(gamepadObj) {
   mainGamepad = navigator.getGamepads()[0];
   console.log(mainGamepad);
 
+  requestAnimationFrame(gamepadInputs);
 }
 
 function gamepadDisconnected(gamepadObj) {
@@ -151,8 +151,6 @@ function gamepadInputs() {
   useRangedMechanism(btn_ls, LEFT_STICK);
   useRangedMechanism(btn_rs, RIGHT_STICK);
 
-  // console.log(btn_start.classList)
-
   // Debug functions
   pressedButton(d_btn_top, D_UP);
   pressedButton(d_btn_down, D_DOWN);
@@ -171,7 +169,7 @@ function gamepadInputs() {
 
   pressedButton(d_btn_select, SELECT);
   pressedButton(d_btn_start, START);
-  pressedButton(d_btn_home, HOME);
+  // pressedButton(d_btn_home, HOME); It's a button that I don't whant to register activity
 
   pressedButton(d_btn_ls, LS);
   pressedButton(d_btn_rs, RS);
@@ -181,6 +179,8 @@ function gamepadInputs() {
 
   // Debug
   // debugConsole()
+  requestAnimationFrame(gamepadInputs);
+  console.log("request");
 }
 
 // I know LB and RB are bumpers, and not buttons
@@ -242,11 +242,4 @@ function debugConsole() {
   console.log([mainGamepad.axes[0], mainGamepad.axes[1]]); // LS (left, right)
   console.log([mainGamepad.axes[2], mainGamepad.axes[3]]); // RS (left, right)
 }
-
-
-// 24 FPS (1000 / 24) = 41.66
-// 12 FPS (1000 / 12) = 83.33
-setInterval(() => {
-  gamepadInputs();
-}, 41.66)
 

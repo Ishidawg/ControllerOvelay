@@ -4,11 +4,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
-  <link href="css/style.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
 </head>
 
 <body>
+  <!-- controller tags -->
+  <div class="controller">
+    <img src="assets/controller-skull.png" />
+
+    <!-- directional pad -->
+    <img class="c_dbase" src="assets/dpad/d_base.png" />
+    <img class="c_top hidden" src="assets/dpad/d_up.png" />
+    <img class="c_down hidden" src="assets/dpad/d_down.png" />
+    <img class="c_left hidden" src="assets/dpad/d_left.png" />
+    <img class="c_right hidden" src="assets/dpad/d_right.png" />
+
+    <!-- center buttons -->
+    <img class="c_cbase" src="assets/center_buttons/c_base.png" />
+    <img class="c_select hidden" src="assets/center_buttons/c_select.png" />
+    <img class="c_home hidden" src="assets/center_buttons/c_home.png" />
+    <img class="c_start hidden" src="assets/center_buttons/c_start.png" />
+
+    <!-- face buttons -->
+    <img class="c_a" src="assets/face_buttons/btn_a.png" />
+    <img class="c_b" src="assets/face_buttons/btn_b.png" />
+    <img class="c_x" src="assets/face_buttons/btn_x.png" />
+    <img class="c_y" src="assets/face_buttons/btn_y.png" />
+
+    <!-- back buttons -->
+    <img class="c_lb" src="assets/back_buttons/left/lb.png" />
+    <img class="c_lt" src="assets/back_buttons/left/lt.png" />
+    <img class="c_rb" src="assets/back_buttons/right/rb.png" />
+    <img class="c_rt" src="assets/back_buttons/right/rt.png" />
+
+    <!-- analogs -->
+    <img class="c_ls" src="assets/analogs/ls.png" />
+    <img class="c_rs" src="assets/analogs/rs.png" />
+  </div>
+
+  <!-- debug tags -->
   <div class="controller-container">
     <div class="d-pad">
       <span class="top">TOP</span>
@@ -38,8 +72,8 @@
       <span class="rs">RS</span>
     </div>
     <div class="sticks-axis">
-      <span class="left-axis"></span>
-      <span class="right-axis"></span>
+      <span class="left-axis">L_AXIS</span>
+      <span class="right-axis">R_AXIS</span>
     </div>
   </div>
   <script src="main.js" defer></script>

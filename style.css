@@ -18,3 +18,8 @@
 .hidden {
   opacity: 0;
 }
+
+/* Hides debug html - comment the css block bellow to show it on browser */
+.controller-container {
+  display: none;
+}

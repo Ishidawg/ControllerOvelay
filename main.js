@@ -48,6 +48,27 @@ const controller = {
   right_axis: document.querySelector(".right-axis")
 }
 
+const buttons = {
+  D_UP: undefined,
+  D_DOWN: undefined,
+  D_LEFT: undefined,
+  D_RIGHT: undefined,
+  F_A: undefined,
+  F_B: undefined,
+  F_X: undefined,
+  F_Y: undefined,
+  LB: undefined,
+  LT: undefined,
+  RB: undefined,
+  RT: undefined,
+  SELECT: undefined,
+  START: undefined,
+  LS: undefined,
+  RS: undefined,
+  LEFT_STICK: undefined,
+  RIGHT_STICK: undefined
+}
+
 // Trigger gamepad connected event
 window.addEventListener("gamepadconnected", (gamepad) => {
   gamepadConnected(gamepad);
@@ -95,85 +116,52 @@ function gamepadInputs() {
   // I need to refresh it, so obs can update what it's displaying (controller)
   mainGamepad = navigator.getGamepads()[0];
 
-  const D_UP = mainGamepad.buttons[12].value;
-  const D_DOWN = mainGamepad.buttons[13].value;
-  const D_LEFT = mainGamepad.buttons[14].value;
-  const D_RIGHT = mainGamepad.buttons[15].value;
-
-  const F_A = mainGamepad.buttons[0].value;
-  const F_B = mainGamepad.buttons[1].value;
-  const F_X = mainGamepad.buttons[2].value;
-  const F_Y = mainGamepad.buttons[3].value;
-
-  const LB = mainGamepad.buttons[4].value;
-  const LT = mainGamepad.buttons[6].value;
-  const RB = mainGamepad.buttons[5].value;
-  const RT = mainGamepad.buttons[7].value;
-
-  const SELECT = mainGamepad.buttons[8].value;
-  const START = mainGamepad.buttons[9].value;
-  // const HOME = mainGamepad.buttons[16].value; It's a button that I don't whant to register activity
-
-  const LS = mainGamepad.buttons[10].value;
-  const RS = mainGamepad.buttons[11].value;
-
-  const LEFT_STICK = new Float32Array(mainGamepad.axes.slice(0, 2));
-  const RIGHT_STICK = new Float32Array(mainGamepad.axes.slice(-2));
+  buttons.D_UP = mainGamepad.buttons[12].value;
+  buttons.D_DOWN = mainGamepad.buttons[13].value;
+  buttons.D_LEFT = mainGamepad.buttons[14].value;
+  buttons.D_RIGHT = mainGamepad.buttons[15].value;
+  buttons.F_A = mainGamepad.buttons[0].value;
+  buttons.F_B = mainGamepad.buttons[1].value;
+  buttons.F_X = mainGamepad.buttons[2].value;
+  buttons.F_Y = mainGamepad.buttons[3].value;
+  buttons.LB = mainGamepad.buttons[4].value;
+  buttons.LT = mainGamepad.buttons[6].value;
+  buttons.RB = mainGamepad.buttons[5].value;
+  buttons.RT = mainGamepad.buttons[7].value;
+  buttons.SELECT = mainGamepad.buttons[8].value;
+  buttons.START = mainGamepad.buttons[9].value;
+  buttons.LS = mainGamepad.buttons[10].value;
+  buttons.RS = mainGamepad.buttons[11].value;
+  buttons.LEFT_STICK = new Float32Array(mainGamepad.axes.slice(0, 2));
+  buttons.RIGHT_STICK = new Float32Array(mainGamepad.axes.slice(-2));
+  // const HOME = mainGamepad.buttons[16].value; It's a button that I don't want to register activity
 
   // Actual controller functions
-  pressedControllerButton(controller.top, D_UP, true);
-  pressedControllerButton(controller.down, D_DOWN, true);
-  pressedControllerButton(controller.left, D_LEFT, true);
-  pressedControllerButton(controller.right, D_RIGHT, true);
-
-  pressedControllerButton(controller.a, F_A);
-  pressedControllerButton(controller.b, F_B);
-  pressedControllerButton(controller.x, F_X);
-  pressedControllerButton(controller.y, F_Y);
-
-  pressedControllerButton(controller.lb, LB);
-  pressedControllerButton(controller.rb, RB);
-  useRangedMechanism(controller.lt, LT);
-  useRangedMechanism(controller.rt, RT);
-
-  pressedControllerButton(controller.select, SELECT, true);
-  pressedControllerButton(controller.start, START, true);
-  // pressedControllerButton(btn_home, HOME, true); It's a button that I don't whant to register activity
+  pressedControllerButton(controller.top, buttons.D_UP, true);
+  pressedControllerButton(controller.down, buttons.D_DOWN, true);
+  pressedControllerButton(controller.left, buttons.D_LEFT, true);
+  pressedControllerButton(controller.right, buttons.D_RIGHT, true);
+  pressedControllerButton(controller.a, buttons.F_A);
+  pressedControllerButton(controller.b, buttons.F_B);
+  pressedControllerButton(controller.x, buttons.F_X);
+  pressedControllerButton(controller.y, buttons.F_Y);
+  pressedControllerButton(controller.lb, buttons.LB);
+  pressedControllerButton(controller.rb, buttons.RB);
+  useRangedMechanism(controller.lt, buttons.LT);
+  useRangedMechanism(controller.rt, buttons.RT);
+  pressedControllerButton(controller.select, buttons.SELECT, true);
+  pressedControllerButton(controller.start, buttons.START, true);
+  // pressedControllerButton(btn_home, HOME, true); It's a button that I don't want to register activity
 
   // PressedControllerButton is used to click, useRangedMechanis is used to move the image
-  pressedControllerButton(controller.ls, LS);
-  pressedControllerButton(controller.rs, RS);
-  useRangedMechanism(controller.ls, LEFT_STICK);
-  useRangedMechanism(controller.rs, RIGHT_STICK);
+  pressedControllerButton(controller.ls, buttons.LS);
+  pressedControllerButton(controller.rs, buttons.RS);
+  useRangedMechanism(controller.ls, buttons.LEFT_STICK);
+  useRangedMechanism(controller.rs, buttons.RIGHT_STICK);
 
   // Debug functions
-  pressedButton(debugController.top, D_UP);
-  pressedButton(debugController.down, D_DOWN);
-  pressedButton(debugController.left, D_LEFT);
-  pressedButton(debugController.right, D_RIGHT);
-
-  pressedButton(debugController.a, F_A);
-  pressedButton(debugController.b, F_B);
-  pressedButton(debugController.x, F_X);
-  pressedButton(debugController.y, F_Y);
-
-  pressedButton(debugController.lb, LB);
-  pressedButton(debugController.lt, LT);
-  pressedButton(debugController.rb, RB);
-  pressedButton(debugController.rt, RT);
-
-  pressedButton(debugController.select, SELECT);
-  pressedButton(debugController.start, START);
-  // pressedButton(d_btn_home, HOME); It's a button that I don't whant to register activity
-
-  pressedButton(debugController.ls, LS);
-  pressedButton(debugController.rs, RS);
-
-  moveAxis(debugController.left_axis, LEFT_STICK);
-  moveAxis(debugController.right_axis, RIGHT_STICK);
-
-  // Debug
   // debugConsole()
+  // debugHTML();
   requestAnimationFrame(gamepadInputs);
 }
 
@@ -206,6 +194,28 @@ function pressedButton(htmlButton, gamepadButton) {
 
 function moveAxis(htmlAxis, gamepadAxis) {
   htmlAxis.innerHTML = `H: ${Number(gamepadAxis[0]).toFixed(2)} | V: ${Number(gamepadAxis[1]).toFixed(2)}`;
+}
+
+function debugHTML() {
+  pressedButton(debugController.top, buttons.D_UP);
+  pressedButton(debugController.down, buttons.D_DOWN);
+  pressedButton(debugController.left, buttons.D_LEFT);
+  pressedButton(debugController.right, buttons.D_RIGHT);
+  pressedButton(debugController.a, buttons.F_A);
+  pressedButton(debugController.b, buttons.F_B);
+  pressedButton(debugController.x, buttons.F_X);
+  pressedButton(debugController.y, buttons.F_Y);
+  pressedButton(debugController.lb, buttons.LB);
+  pressedButton(debugController.lt, buttons.LT);
+  pressedButton(debugController.rb, buttons.RB);
+  pressedButton(debugController.rt, buttons.RT);
+  pressedButton(debugController.select, buttons.SELECT);
+  pressedButton(debugController.start, buttons.START);
+  pressedButton(debugController.ls, buttons.LS);
+  pressedButton(debugController.rs, buttons.RS);
+  moveAxis(debugController.left_axis, buttons.LEFT_STICK);
+  moveAxis(debugController.right_axis, buttons.RIGHT_STICK);
+  // pressedButton(d_btn_home, HOME); It's a button that I don't whant to register activity
 }
 
 function debugConsole() {

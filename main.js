@@ -3,56 +3,50 @@ console.log("Gamepad viewer, by Ishidaw");
 let mainGamepad = undefined;
 
 // Text html for debuggin
-const d_btn_top = document.querySelector(".top");
-const d_btn_down = document.querySelector(".down");
-const d_btn_left = document.querySelector(".left");
-const d_btn_right = document.querySelector(".right");
-
-const d_btn_select = document.querySelector(".select");
-const d_btn_start = document.querySelector(".start");
-const d_btn_home = document.querySelector(".home");
-
-const d_btn_a = document.querySelector(".a");
-const d_btn_b = document.querySelector(".b");
-const d_btn_x = document.querySelector(".x");
-const d_btn_y = document.querySelector(".y");
-
-const d_btn_lb = document.querySelector(".lb");
-const d_btn_lt = document.querySelector(".lt");
-const d_btn_rb = document.querySelector(".rb");
-const d_btn_rt = document.querySelector(".rt");
-
-const d_btn_ls = document.querySelector(".ls");
-const d_btn_rs = document.querySelector(".rs");
-
-const d_left_axis = document.querySelector(".left-axis");
-const d_right_axis = document.querySelector(".right-axis");
+const debugController = {
+  top: document.querySelector(".debug_top"),
+  down: document.querySelector(".debug_down"),
+  left: document.querySelector(".debug_left"),
+  right: document.querySelector(".debug_right"),
+  select: document.querySelector(".debug_select"),
+  start: document.querySelector(".debug_start"),
+  home: document.querySelector(".debug_home"),
+  a: document.querySelector(".debug_a"),
+  b: document.querySelector(".debug_b"),
+  x: document.querySelector(".debug_x"),
+  y: document.querySelector(".debug_y"),
+  lb: document.querySelector(".debug_lb"),
+  lt: document.querySelector(".debug_lt"),
+  rb: document.querySelector(".debug_rb"),
+  rt: document.querySelector(".debug_rt"),
+  ls: document.querySelector(".debug_ls"),
+  rs: document.querySelector(".debug_rs"),
+  left_axis: document.querySelector(".debug_left-axis"),
+  right_axis: document.querySelector(".debug_right-axis")
+}
 
 // Actual controller related tags
-const btn_top = document.querySelector(".c_top");
-const btn_down = document.querySelector(".c_down");
-const btn_left = document.querySelector(".c_left");
-const btn_right = document.querySelector(".c_right");
-
-const btn_select = document.querySelector(".c_select");
-const btn_start = document.querySelector(".c_start");
-const btn_home = document.querySelector(".c_home");
-
-const btn_a = document.querySelector(".c_a");
-const btn_b = document.querySelector(".c_b");
-const btn_x = document.querySelector(".c_x");
-const btn_y = document.querySelector(".c_y");
-
-const btn_lb = document.querySelector(".c_lb");
-const btn_lt = document.querySelector(".c_lt");
-const btn_rb = document.querySelector(".c_rb");
-const btn_rt = document.querySelector(".c_rt");
-
-const btn_ls = document.querySelector(".c_ls");
-const btn_rs = document.querySelector(".c_rs");
-
-// const left_axis = document.querySelector(".left-axis");
-// const right_axis = document.querySelector(".right-axis");
+const controller = {
+  top: document.querySelector(".top"),
+  down: document.querySelector(".down"),
+  left: document.querySelector(".left"),
+  right: document.querySelector(".right"),
+  select: document.querySelector(".select"),
+  start: document.querySelector(".start"),
+  home: document.querySelector(".home"),
+  a: document.querySelector(".a"),
+  b: document.querySelector(".b"),
+  x: document.querySelector(".x"),
+  y: document.querySelector(".y"),
+  lb: document.querySelector(".lb"),
+  lt: document.querySelector(".lt"),
+  rb: document.querySelector(".rb"),
+  rt: document.querySelector(".rt"),
+  ls: document.querySelector(".ls"),
+  rs: document.querySelector(".rs"),
+  left_axis: document.querySelector(".left-axis"),
+  right_axis: document.querySelector(".right-axis")
+}
 
 // Trigger gamepad connected event
 window.addEventListener("gamepadconnected", (gamepad) => {
@@ -74,8 +68,6 @@ function gamepadConnected(gamepadObj) {
   );
 
   mainGamepad = navigator.getGamepads()[0];
-  console.log(mainGamepad);
-
   requestAnimationFrame(gamepadInputs);
 }
 
@@ -99,6 +91,9 @@ function gamepadDisconnected(gamepadObj) {
 // RS [2, 3]
 function gamepadInputs() {
   if (!mainGamepad) return;
+
+  // I need to refresh it, so obs can update what it's displaying (controller)
+  mainGamepad = navigator.getGamepads()[0];
 
   const D_UP = mainGamepad.buttons[12].value;
   const D_DOWN = mainGamepad.buttons[13].value;
@@ -126,61 +121,60 @@ function gamepadInputs() {
   const RIGHT_STICK = new Float32Array(mainGamepad.axes.slice(-2));
 
   // Actual controller functions
-  pressedControllerButton(btn_top, D_UP, true);
-  pressedControllerButton(btn_down, D_DOWN, true);
-  pressedControllerButton(btn_left, D_LEFT, true);
-  pressedControllerButton(btn_right, D_RIGHT, true);
+  pressedControllerButton(controller.top, D_UP, true);
+  pressedControllerButton(controller.down, D_DOWN, true);
+  pressedControllerButton(controller.left, D_LEFT, true);
+  pressedControllerButton(controller.right, D_RIGHT, true);
 
-  pressedControllerButton(btn_a, F_A);
-  pressedControllerButton(btn_b, F_B);
-  pressedControllerButton(btn_x, F_X);
-  pressedControllerButton(btn_y, F_Y);
+  pressedControllerButton(controller.a, F_A);
+  pressedControllerButton(controller.b, F_B);
+  pressedControllerButton(controller.x, F_X);
+  pressedControllerButton(controller.y, F_Y);
 
-  pressedControllerButton(btn_lb, LB);
-  pressedControllerButton(btn_rb, RB);
-  useRangedMechanism(btn_lt, LT);
-  useRangedMechanism(btn_rt, RT);
+  pressedControllerButton(controller.lb, LB);
+  pressedControllerButton(controller.rb, RB);
+  useRangedMechanism(controller.lt, LT);
+  useRangedMechanism(controller.rt, RT);
 
-  pressedControllerButton(btn_select, SELECT, true);
-  pressedControllerButton(btn_start, START, true);
+  pressedControllerButton(controller.select, SELECT, true);
+  pressedControllerButton(controller.start, START, true);
   // pressedControllerButton(btn_home, HOME, true); It's a button that I don't whant to register activity
 
-  pressedControllerButton(btn_ls, LS);
-  pressedControllerButton(btn_rs, RS);
-
-  useRangedMechanism(btn_ls, LEFT_STICK);
-  useRangedMechanism(btn_rs, RIGHT_STICK);
+  // PressedControllerButton is used to click, useRangedMechanis is used to move the image
+  pressedControllerButton(controller.ls, LS);
+  pressedControllerButton(controller.rs, RS);
+  useRangedMechanism(controller.ls, LEFT_STICK);
+  useRangedMechanism(controller.rs, RIGHT_STICK);
 
   // Debug functions
-  pressedButton(d_btn_top, D_UP);
-  pressedButton(d_btn_down, D_DOWN);
-  pressedButton(d_btn_left, D_LEFT);
-  pressedButton(d_btn_right, D_RIGHT);
+  pressedButton(debugController.top, D_UP);
+  pressedButton(debugController.down, D_DOWN);
+  pressedButton(debugController.left, D_LEFT);
+  pressedButton(debugController.right, D_RIGHT);
 
-  pressedButton(d_btn_a, F_A);
-  pressedButton(d_btn_b, F_B);
-  pressedButton(d_btn_x, F_X);
-  pressedButton(d_btn_y, F_Y);
+  pressedButton(debugController.a, F_A);
+  pressedButton(debugController.b, F_B);
+  pressedButton(debugController.x, F_X);
+  pressedButton(debugController.y, F_Y);
 
-  pressedButton(d_btn_lb, LB);
-  pressedButton(d_btn_rt, LT);
-  pressedButton(d_btn_rb, RB);
-  pressedButton(d_btn_rt, RT);
+  pressedButton(debugController.lb, LB);
+  pressedButton(debugController.lt, LT);
+  pressedButton(debugController.rb, RB);
+  pressedButton(debugController.rt, RT);
 
-  pressedButton(d_btn_select, SELECT);
-  pressedButton(d_btn_start, START);
+  pressedButton(debugController.select, SELECT);
+  pressedButton(debugController.start, START);
   // pressedButton(d_btn_home, HOME); It's a button that I don't whant to register activity
 
-  pressedButton(d_btn_ls, LS);
-  pressedButton(d_btn_rs, RS);
+  pressedButton(debugController.ls, LS);
+  pressedButton(debugController.rs, RS);
 
-  moveAxis(d_left_axis, LEFT_STICK);
-  moveAxis(d_right_axis, RIGHT_STICK);
+  moveAxis(debugController.left_axis, LEFT_STICK);
+  moveAxis(debugController.right_axis, RIGHT_STICK);
 
   // Debug
   // debugConsole()
   requestAnimationFrame(gamepadInputs);
-  console.log("request");
 }
 
 // I know LB and RB are bumpers, and not buttons
